@@ -1,0 +1,67 @@
+[
+  {
+    "id": 0,
+    "title": "Iphone XS Max",
+    "author": "Apple Iphone",
+    "image":
+      "https://tron.kz/images/product/iphone-xs/200x220.jpg",
+    "price": 82092,
+    "rating": 5
+  },
+  {
+    "id": 1,
+    "title": "Iphone 7S",
+    "author": "Apple Iphone",
+    "image": "https://tron.kz/images/product/iphone-7/200x220.jpg",
+    "price": 35815,
+    "rating": 4
+  },
+  {
+    "id": 2,
+    "title": "Iphone XR",
+    "author": "Apple Iphone",
+    "image": "https://tron.kz/images/product/iphone-xr/200x220.jpg",
+    "price": 43200,
+    "rating": 4
+  },
+  {
+    "id": 3,
+    "title": "Samsung A8  Plus",
+    "author": "Samsung",
+    "image": "https://tron.kz/images/product/samsung-a8-plus/200x220.jpg",
+    "price": 26063,
+    "rating": 3
+  },
+  {
+    "id": 4,
+    "title": "Samsung A8",
+    "author": "Samsung",
+    "image": "https://tron.kz/images/product/Samsung_A8_almaty/200x220.jpg",
+    "price": 23864,
+    "rating": 1
+  },
+  {
+    "id": 5,
+    "title": "Samsung Galaxy J7 Neo",
+    "author": "Samsung",
+    "image": "https://tron.kz/images/product/samsung-galaxy-j5-2017/200x220.jpg",
+    "price": 14623,
+    "rating": 0
+  },
+  {
+    "id": 6,
+    "title": "Sony XZ",
+    "author": "Sony",
+    "image": "https://tron.kz/images/product/sony-z2/200x220.jpg",
+    "price": 29875,
+    "rating": 4
+  },
+  {
+    "id": 7,
+    "title": "HTC u-11",
+    "author": "HTC",
+    "image": "https://tron.kz/images/product/htc-u11/200x220.jpg",
+    "price": 30762,
+    "rating": 0
+  }
+]
