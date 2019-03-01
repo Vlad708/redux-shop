@@ -18,7 +18,7 @@ class App extends Component {
     const { books, isReady } = this.props;
     return (
       <Container>
-        <Menu />
+        <Menu data={books}/>
         <Filter />
         <Card.Group itemsPerRow={4}>
           {!isReady
