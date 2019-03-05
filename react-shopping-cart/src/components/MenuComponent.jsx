@@ -48,7 +48,7 @@ const CartComponent = ({ title, id, image, removeFromCart }) => (
           Удалить
         </Button>
       </List.Content>
-      <Image avatar src={image} />
+      <Image avatar src={image.sizes.medium} />
       <List.Content>{title}</List.Content>
     </List.Item>    
   </List>
