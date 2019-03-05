@@ -9,3 +9,10 @@ body {
 .popup {
   max-width: 400px !important;
 }
+
+
+.ui.cards>.card>.image {
+	margin: 0 auto;
+	width: 200px;
+	height: 220px;
+}
