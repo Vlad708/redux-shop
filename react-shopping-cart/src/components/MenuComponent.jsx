@@ -29,7 +29,7 @@ class MenuComponent extends Component {
               </Menu.Item>
             }
             open={this.state.modalOpen}      
-            content={items.map(book => <CartComponent {...book} />)}
+            content={items.map(product => <CartComponent {...product} />)}
             on="click"
             hideOnScroll
           />

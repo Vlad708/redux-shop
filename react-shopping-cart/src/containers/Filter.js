@@ -3,7 +3,7 @@ import { bindActionCreators } from 'redux';
 import * as filterActions from '../actions/filter';
 import Filter from '../components/Filter';
 
-const mapStateToProps = ({ books, filter }) => ({
+const mapStateToProps = ({ products, filter }) => ({
   filterBy: filter.filterBy,
 });
 

@@ -9,11 +9,6 @@ import { Card } from 'semantic-ui-react';
 class App extends Component {
   componentWillMount() {
     const { setProducts } = this.props;
-    
-    /*axios.get('/books.json').then(({ data }) => {
-      console.log('orig', data);
-      setProducts(data);
-    });*/
 
     axios.get('https://socio.paktcompany.com/wp-json/wp/v2/posts').then( ({ data }) => {      
       let products = [];

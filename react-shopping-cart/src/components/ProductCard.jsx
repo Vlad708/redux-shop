@@ -2,6 +2,7 @@ import React from 'react';
 import { Card, Image, Icon, Button } from 'semantic-ui-react';
 
 const ProductCard = product => {
+
   const { title, model, price, image, addToCart, addedCount } = product;
   return (
     <Card>
