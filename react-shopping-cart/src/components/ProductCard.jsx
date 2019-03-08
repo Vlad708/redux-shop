@@ -1,14 +1,19 @@
 import React from 'react';
+import { Link } from 'react-router-dom'
 import { Card, Image, Icon, Button } from 'semantic-ui-react';
 
 const ProductCard = product => {
 
-  const { title, model, price, image, addToCart, addedCount } = product;
+  const { id, title, model, price, image, addToCart, addedCount } = product;
   return (
     <Card>
       <Image src={image.sizes.medium} />
-      <Card.Content>
-        <Card.Header>{title}</Card.Header>
+      <Card.Content>        
+        <Card.Header>
+          <Link to={`/product/${id}`}>
+            {title}
+          </Link>
+        </Card.Header>
         <Card.Meta>
           <span className="date">{model}</span>
         </Card.Meta>

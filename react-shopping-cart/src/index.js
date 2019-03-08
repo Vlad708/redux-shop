@@ -14,11 +14,8 @@ const store = createStore();
 
 ReactDOM.render(
   <Provider store={store}>
-  	<BrowserRouter>    	
-    	<Switch>
-		  <Route exact path='/' component={App} />	 
-		  <Route path='/product' component={ProductItem} />		  
-		</Switch>
+  	<BrowserRouter>  		 
+    	<App />
 	</BrowserRouter>
   </Provider>,
   document.getElementById('root')

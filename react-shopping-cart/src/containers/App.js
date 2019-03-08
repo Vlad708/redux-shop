@@ -1,7 +1,9 @@
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { withRouter } from 'react-router';
 import * as productsActions from '../actions/products';
 import App from '../components/App';
+import Main from '../components/Main';
 import orderBy from 'lodash/orderBy';
 
 const sortBy = (products, filterBy) => {
@@ -37,7 +39,7 @@ const mapDispatchToProps = dispatch => ({
   ...bindActionCreators(productsActions, dispatch),
 });
 
-export default connect(
+export default withRouter(connect(
   mapStateToProps,
   mapDispatchToProps,
-)(App);
+)(Main));

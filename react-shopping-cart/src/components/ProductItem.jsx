@@ -3,12 +3,11 @@ import React, { Component } from 'react'
 
 class ProductItem extends Component {
 
-  render () {    
-
-    return (
-      <p>Test message</p>
-    )
-  }
+	render () {		
+		return (
+	      <p>Test message</p>
+	    )
+  	}
 }
 
 export default ProductItem
