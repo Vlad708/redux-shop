@@ -4,7 +4,7 @@ import axios from 'axios';
 import { Switch, Route } from 'react-router-dom'
 import { Card } from 'semantic-ui-react';
 import ProductCard from '../containers/ProductCard';
-import ProductItem from '../components/ProductItem';
+import ProductItem from '../containers/ProductItem';
 import Filter from '../containers/Filter';
 import Menu from '../containers/Menu';
 
@@ -13,8 +13,9 @@ class Main extends Component {
 	    const { setProducts } = this.props;	    
 	    axios.get('https://socio.paktcompany.com/wp-json/wp/v2/posts').then( ({ data }) => {      
 	      let products = [];
-	      data.map((item) => {
-	        products.push(item.acf);
+	      data.map((item) => {	      	
+	      	item.acf.id = item.id
+	        products.push(item.acf)
 	      })      
 	      setProducts(products);
 	    });
