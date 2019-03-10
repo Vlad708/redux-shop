@@ -4,7 +4,7 @@ import axios from 'axios';
 import { Switch, Route } from 'react-router-dom'
 import { Card } from 'semantic-ui-react';
 import ProductCard from '../containers/ProductCard';
-import ProductItem from '../containers/ProductItem';
+import ProductItem from '../components/ProductItem';
 import Filter from '../containers/Filter';
 import Menu from '../containers/Menu';
 
@@ -26,20 +26,21 @@ class Main extends Component {
 
   		return (
   			<Container>
-		        <Menu data={products}/>
-		        <Filter />
+		        <Menu data={products}/>		        
 		        <Switch>
 				  <Route exact path='/' render={(props) =>
-		  			<Card.Group itemsPerRow={4}>
-			          {!isReady
-			            ? 'Загрузка...'
-			            : products.map((product, i) => <ProductCard key={i} {...product} />)}
-			        </Card.Group>
+		  			<div>
+		  				<Filter />
+			  			<Card.Group itemsPerRow={4}>
+				          {!isReady
+				            ? 'Загрузка...'
+				            : products.map((product, i) => <ProductCard key={i} {...product} />)}
+				        </Card.Group>
+		  			</div>
 				  } />				  
 		  		  <Route path="/product/:id" render={({match}) => <ProductItem productId={match.params.id} />} />
 				  		  
-				</Switch>	        
-					       
+				</Switch>
 	      	</Container>
   		)
   	}
