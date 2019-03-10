@@ -1,6 +1,10 @@
 import React, { Component } from 'react'
-import axios from 'axios';
-import { Image, Item, Icon } from 'semantic-ui-react'
+import axios from 'axios'
+import { Image, Item, Icon, Button, Label } from 'semantic-ui-react'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+import * as cartActions from '../actions/cart';
+
 
 class ProductItem extends Component {
 
@@ -9,7 +13,9 @@ class ProductItem extends Component {
 	   this.state = {
 	   	 isReady: false,
 	   	 product: {}
-	   };	     	
+	   };
+	   const { dispatch } = props;
+ 	   this.addCart = bindActionCreators(cartActions, dispatch) 	   
     }
 
 	componentWillMount() {		
@@ -19,7 +25,8 @@ class ProductItem extends Component {
 	      	isReady: true,
 	      	product: data
 	      })
-	    });
+	      console.log(this.state, '==State')
+	    });	    
   	}
 
 	render () {		
@@ -30,8 +37,7 @@ class ProductItem extends Component {
   			  !isReady ? 'Загрузка' : 
   			  <Item.Group>
   			  	<Item>
-  			  		  <Item.Image size='medium' src={this.state.product.acf.image.sizes.large} />
-
+  			  		  <Item.Image size='medium' src={this.state.product.acf.image.sizes.large} />					   
 				      <Item.Content>
 				        <Item.Header>{this.state.product.acf.title}</Item.Header>
 				        <Item.Meta>
@@ -43,6 +49,13 @@ class ProductItem extends Component {
 				        <Item.Description>
 				        <div dangerouslySetInnerHTML={{__html:this.state.product.acf.description}}></div>
 				        </Item.Description>
+				        <Item.Extra>
+				          <Button primary floated="right" 
+				          	onClick={this.addCart.addToCart.bind(this, this.state.product.acf)}>
+				            Купить
+				            <Icon name='left chevron' />
+				          </Button>
+				        </Item.Extra>
 				      </Item.Content>
   			  	</Item>
   			  </Item.Group>
@@ -52,4 +65,4 @@ class ProductItem extends Component {
   	}
 }
 
-export default ProductItem
+export default connect()(ProductItem)
