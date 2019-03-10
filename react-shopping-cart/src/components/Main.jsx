@@ -7,6 +7,7 @@ import ProductCard from '../containers/ProductCard';
 import ProductItem from '../components/ProductItem';
 import Filter from '../containers/Filter';
 import Menu from '../containers/Menu';
+import LiveChat from '../components/LiveChat'
 
 class Main extends Component {
 	componentWillMount() {
@@ -27,6 +28,7 @@ class Main extends Component {
   		return (
   			<Container>
 		        <Menu data={products}/>		        
+		        <LiveChat />
 		        <Switch>
 				  <Route exact path='/' render={(props) =>
 		  			<div>
@@ -38,8 +40,7 @@ class Main extends Component {
 				        </Card.Group>
 		  			</div>
 				  } />				  
-		  		  <Route path="/product/:id" render={({match}) => <ProductItem productId={match.params.id} />} />
-				  		  
+		  		  <Route path="/product/:id" render={({match}) => <ProductItem productId={match.params.id} />} />			  		 
 				</Switch>
 	      	</Container>
   		)

@@ -5,7 +5,6 @@ import { Card, Image, Icon, Button } from 'semantic-ui-react';
 const ProductCard = product => {
 
   const { id, title, model, price, image, addToCart, addedCount } = product;
-  console.log(product, '==PR')  
   return (
     <Card>
       <Image src={image.sizes.medium} />
