@@ -58,8 +58,8 @@ class ProductItem extends Component {
 				        </Item.Extra>
 				      </Item.Content>
   			  	</Item>
-  			  </Item.Group>
-	      	}
+  			  </Item.Group>  			  
+	      	}	      	 
 	      </div>
 	    )
   	}

@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Menu, Popup, List, Button, Image } from 'semantic-ui-react';
+import { Link } from 'react-router-dom'
 
 class MenuComponent extends Component {
 
@@ -13,8 +14,8 @@ class MenuComponent extends Component {
 
     return (
       <Menu>
-        <Menu.Item name="browse" onClick={this.handleItemClick}>
-          Магазин телефонов
+        <Menu.Item name="browse">          
+          <Link to="/">Магазин телефонов</Link>
         </Menu.Item>
 
         <Menu.Menu position="right">
