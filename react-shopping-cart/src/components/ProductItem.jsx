@@ -5,7 +5,6 @@ import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import * as cartActions from '../actions/cart';
 
-
 class ProductItem extends Component {
 
 	constructor(props) {
@@ -59,7 +58,7 @@ class ProductItem extends Component {
 				      </Item.Content>
   			  	</Item>
   			  </Item.Group>  			  
-	      	}	      	 
+	      	}	      	 	      	
 	      </div>
 	    )
   	}

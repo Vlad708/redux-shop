@@ -8,6 +8,7 @@ import ProductItem from '../components/ProductItem';
 import Filter from '../containers/Filter';
 import Menu from '../containers/Menu';
 import LiveChat from '../components/LiveChat'
+import Slider from '../components/Slider'
 
 class Main extends Component {
 	componentWillMount() {
@@ -32,6 +33,7 @@ class Main extends Component {
 		        <Switch>
 				  <Route exact path='/' render={(props) =>
 		  			<div>
+		  				<Slider />
 		  				<Filter />
 			  			<Card.Group itemsPerRow={4}>
 				          {!isReady
