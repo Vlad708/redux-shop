@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Menu, Popup, List, Button, Image } from 'semantic-ui-react';
 import { Link } from 'react-router-dom'
+import Trash from '../components/Trash'
 
 class MenuComponent extends Component {
 
@@ -11,8 +12,6 @@ class MenuComponent extends Component {
 
   render () {
     const { totalPrice, count, items, removeFromCart } = this.props 
-
-    console.log(removeFromCart, '==PROPS')  
 
     return (
       <Menu>
@@ -32,7 +31,7 @@ class MenuComponent extends Component {
               </Menu.Item>
             }
             open={this.state.modalOpen}      
-            content={items.map(product => <CartComponent {...product} onClick={removeFromCart} />)}
+            content={<Trash products={items} onClick={removeFromCart}/>}
             on="click"
             hideOnScroll
           />
@@ -41,22 +40,6 @@ class MenuComponent extends Component {
     )
   }
 }
-
-
-const CartComponent = ({ title, id, image, onClick }) => (  
-  <List selection divided verticalAlign="middle">
-    <List.Item>
-      <List.Content floated="right">              
-      <Button onClick={onClick.bind(this, id)} color="red">
-        Удалить
-      </Button>
-      
-      </List.Content>
-      <Image avatar src={image.sizes.medium} />
-      <List.Content>{title}</List.Content>
-    </List.Item>    
-  </List>
-);
 
 export default MenuComponent
 
