@@ -10,7 +10,9 @@ class MenuComponent extends Component {
   }
 
   render () {
-    const { totalPrice, count, items } = this.props
+    const { totalPrice, count, items, removeFromCart } = this.props 
+
+    console.log(removeFromCart, '==PROPS')  
 
     return (
       <Menu>
@@ -30,7 +32,7 @@ class MenuComponent extends Component {
               </Menu.Item>
             }
             open={this.state.modalOpen}      
-            content={items.map(product => <CartComponent {...product} />)}
+            content={items.map(product => <CartComponent {...product} onClick={removeFromCart} />)}
             on="click"
             hideOnScroll
           />
@@ -41,13 +43,14 @@ class MenuComponent extends Component {
 }
 
 
-const CartComponent = ({ title, id, image, removeFromCart }) => (
+const CartComponent = ({ title, id, image, onClick }) => (  
   <List selection divided verticalAlign="middle">
     <List.Item>
-      <List.Content floated="right">
-        <Button onClick={removeFromCart.bind(this, id)} color="red">
-          Удалить
-        </Button>
+      <List.Content floated="right">              
+      <Button onClick={onClick.bind(this, id)} color="red">
+        Удалить
+      </Button>
+      
       </List.Content>
       <Image avatar src={image.sizes.medium} />
       <List.Content>{title}</List.Content>

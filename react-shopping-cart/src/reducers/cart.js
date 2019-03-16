@@ -1,10 +1,14 @@
+import { loadState } from '../components/StateLoader'
+
+const persistedState = loadState();
+
 const initialState = {
-  items: [],
+  items: (persistedState.selectedProducts) || [],
 };
 
 export default (state = initialState, action) => {
   switch (action.type) {
-    case 'ADD_TO_CART':
+    case 'ADD_TO_CART':      
       return {
         ...state,
         items: [...state.items, action.payload],

@@ -23,8 +23,7 @@ class ProductItem extends Component {
 	      this.setState({
 	      	isReady: true,
 	      	product: data
-	      })
-	      console.log(this.state, '==State')
+	      })	      
 	    });	    
   	}
 

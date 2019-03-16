@@ -29,7 +29,7 @@ class Main extends Component {
   		return (
   			<Container>
 		        <Menu data={products}/>		        
-		        <LiveChat />
+		        {/*<LiveChat />*/}
 		        <Switch>
 				  <Route exact path='/' render={(props) =>
 		  			<div>
