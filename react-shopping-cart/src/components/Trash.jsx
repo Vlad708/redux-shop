@@ -10,7 +10,7 @@ class Trash extends Component {
 		return (
 			<div>
 				<CartComponent products={products} onClick={onClick}/>				
-				<Button>Оформить заказ</Button>
+				<Button className="orderButton">Оформить заказ</Button>
 			</div>
 		)
 	}

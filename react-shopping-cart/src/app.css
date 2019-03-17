@@ -17,3 +17,8 @@ body {
 	width: 200px;
 	height: 220px;
 }
+
+.ui.button.orderButton {
+	display: block;
+	margin: 0 auto;
+}
