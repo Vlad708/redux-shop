@@ -1,9 +1,10 @@
 import { loadState } from '../components/StateLoader'
 
 const persistedState = loadState();
+console.log(persistedState, '===')
 
 const initialState = {
-  items: (persistedState.selectedProducts) || [],
+  items: persistedState.selectedProducts || [],  
 };
 
 export default (state = initialState, action) => {
