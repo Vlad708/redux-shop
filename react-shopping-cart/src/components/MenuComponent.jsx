@@ -5,11 +5,6 @@ import Trash from '../components/Trash'
 
 class MenuComponent extends Component {
 
-  state = {modalOpen: false}
-  handleItemClick = (count) => {      
-    (count > 0) ? this.setState({modalOpen: true}) : this.setState({modalOpen: false})
-  }
-
   render () {
     const { totalPrice, count, items, removeFromCart } = this.props 
 
@@ -26,14 +21,13 @@ class MenuComponent extends Component {
 
           <Popup
             trigger={
-              <Menu.Item name="help" onClick={() => this.handleItemClick(count)}>
+              <Menu.Item name="help">
                 Корзина (<b>{count}</b>)
               </Menu.Item>
-            }
-            open={this.state.modalOpen}      
+            }                
             content={<Trash products={items} onClick={removeFromCart}/>}
             on="click"
-            hideOnScroll
+            hideOnScroll            
           />
         </Menu.Menu>
       </Menu>

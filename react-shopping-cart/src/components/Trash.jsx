@@ -5,16 +5,16 @@ import { Link } from 'react-router-dom'
 class Trash extends Component {
 
 	render () {
-		const {products, onClick} = this.props
-		console.log(products, 'TRSAH')
+		const {products, onClick} = this.props		
 		return (
 			<div>
-				<CartComponent products={products} onClick={onClick}/>				
-				<Button className="orderButton">Оформить заказ</Button>
+				<CartComponent products={products} onClick={onClick}/>								
+				<Link to="/checkout/singlePage">
+					<Button className="orderButton">Оформить заказ</Button>
+				</Link>
 			</div>
 		)
-	}
-	
+	}	
 }
 
 const CartComponent = ({ products, onClick }) => (
@@ -31,8 +31,7 @@ const CartComponent = ({ products, onClick }) => (
 			  <List.Content>{product.title}</List.Content>
 			</List.Item>			 
 		</List>
-	))
-  
+	))  
 );
 
 export default Trash
