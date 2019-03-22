@@ -1,12 +1,12 @@
-import React, { Component } from 'react';
-import { Container, Card } from 'semantic-ui-react';
-import axios from 'axios';
+import React, { Component } from 'react'
+import { Container, Card } from 'semantic-ui-react'
+import axios from 'axios'
 import { Switch, Route } from 'react-router-dom'
-import ProductCard from '../containers/ProductCard';
-import ProductItem from '../components/ProductItem';
+import ProductCard from '../containers/ProductCard'
+import ProductItem from '../components/ProductItem'
 import CheckoutComponent from '../components/CheckoutComponent';
-import Filter from '../containers/Filter';
-import Menu from '../containers/Menu';
+import Filter from '../containers/Filter'
+import Menu from '../containers/Menu'
 import LiveChat from '../components/LiveChat'
 import Slider from '../components/Slider'
 
@@ -43,7 +43,7 @@ class Main extends Component {
 		  			</div>
 				  } />				  
 		  		  <Route path="/product/:id" render={({match}) => <ProductItem productId={match.params.id} />} />
-		  		  <Route exact path="/checkout/singlePage" render={({match}) => <CheckoutComponent productId={match.params.id} />} />
+		  		  <Route exact path="/checkout/singlePage" render={({match}) => <CheckoutComponent />} />
 				</Switch>
 	      	</Container>
   		)

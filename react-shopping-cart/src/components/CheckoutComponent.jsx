@@ -1,31 +1,37 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux'
 import { Button, Checkbox, Form, Grid, Segment } from 'semantic-ui-react'
 
-class CheckoutComponent extends Component {	
+class CheckoutComponent extends Component {
 
 	render() {
-		console.log(this.props, 'Single')
+		const { cart } = this.props
+		console.log(cart, '=RUN')	
 		return (
 			<div>				
 				<Segment placeholder>
 				    <Grid columns={2} relaxed='very' stackable>
 				      <Grid.Column>
 				        <h1>Оформление заказа</h1>
-						<FormExampleForm />
+				        <FormExampleForm />				
 				      </Grid.Column>
 
 				      <Grid.Column verticalAlign='top'>
 				        <h1>Список покупок</h1>
+				        <CartList cart={cart} />
 				      </Grid.Column>
 				    </Grid>
 				</Segment>
-
 			</div>			
 		)
-	}
+	}	
 }
 
-export default CheckoutComponent
+function mapStateToProps(state) {	
+	return { cart: state.cart };
+}	
+
+export default connect(mapStateToProps)(CheckoutComponent)
 
 const FormExampleForm = () => (
   <div>
@@ -62,4 +68,13 @@ const FormExampleForm = () => (
 	    <Button type='submit'>Оформить заказ</Button>
 	  </Form>
   </div>  
+)
+
+
+const CartList = ({ cart }) => (	
+	cart.items.map(item => (
+		<div>
+			<p>{item.title}</p>
+		</div>
+	))
 )

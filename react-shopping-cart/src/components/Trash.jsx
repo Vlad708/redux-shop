@@ -8,7 +8,7 @@ class Trash extends Component {
 		const {products, onClick} = this.props		
 		return (
 			<div>
-				<CartComponent products={products} onClick={onClick}/>								
+				<CartComponent products={products} onClick={onClick} />								
 				<Link to="/checkout/singlePage">
 					<Button className="orderButton">Оформить заказ</Button>
 				</Link>
