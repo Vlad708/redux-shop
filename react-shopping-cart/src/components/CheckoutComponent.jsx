@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
-import { Button, Checkbox, Form, Grid, Segment } from 'semantic-ui-react'
+import { Button, Checkbox, Form, Grid, Segment, Item, Icon } from 'semantic-ui-react'
 
 class CheckoutComponent extends Component {
 
 	render() {
 		const { cart } = this.props
-		console.log(cart, '=RUN')	
+		const totalPrice = cart.items.reduce((total, product) => total + ~~product.price, 0)
+		
 		return (
 			<div>				
 				<Segment placeholder>
@@ -19,6 +20,7 @@ class CheckoutComponent extends Component {
 				      <Grid.Column verticalAlign='top'>
 				        <h1>Список покупок</h1>
 				        <CartList cart={cart} />
+				        <h4>Итого {cart.items.length} товара на сумму {totalPrice} &nbsp;руб.</h4>
 				      </Grid.Column>
 				    </Grid>
 				</Segment>
@@ -27,7 +29,8 @@ class CheckoutComponent extends Component {
 	}	
 }
 
-function mapStateToProps(state) {	
+function mapStateToProps(state) {
+	console.log(state, '==State')
 	return { cart: state.cart };
 }	
 
@@ -73,8 +76,15 @@ const FormExampleForm = () => (
 
 const CartList = ({ cart }) => (	
 	cart.items.map(item => (
-		<div>
-			<p>{item.title}</p>
-		</div>
+		<Item.Group relaxed>						
+			<Item>
+		      <Item.Image size='tiny' src={item.image.sizes.thumbnail} />
+
+		      <Item.Content verticalAlign='middle'>
+		        <Item.Header>{item.title}</Item.Header>
+		        <Item.Description className="price">{item.price} <Icon name="rub" /></Item.Description>		        
+		      </Item.Content>
+		    </Item>
+		</Item.Group>
 	))
 )
