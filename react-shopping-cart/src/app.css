@@ -30,3 +30,7 @@ body {
     font-weight: 700 !important;
     padding: 0;
 }
+
+.hidden {
+  display: none !important;
+}

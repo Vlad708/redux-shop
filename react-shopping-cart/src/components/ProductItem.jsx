@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import axios from 'axios'
-import { Image, Item, Icon, Button, Label } from 'semantic-ui-react'
+import { Item, Icon, Button } from 'semantic-ui-react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import * as cartActions from '../actions/cart';

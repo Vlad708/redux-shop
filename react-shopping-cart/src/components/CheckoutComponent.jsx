@@ -1,8 +1,35 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
-import { Button, Checkbox, Form, Grid, Segment, Item, Icon } from 'semantic-ui-react'
+import { Button, Form, Grid, Segment, Item, Icon, Message } from 'semantic-ui-react'
 
 class CheckoutComponent extends Component {
+
+	constructor() {
+      super();
+	  this.handleSubmit = this.handleSubmit.bind(this);
+      this.state = {
+    	yourName: '',
+    	yourSecondName: '',
+      	yourEmail: '',
+      	yourPhone: '',
+      	deliveryMethod: '',
+      	depositMethod: '',
+      	address: '',
+      	isHide: true,
+      }
+  	}
+
+  	handleSubmit(event) {
+	  event.preventDefault();
+      console.log(this.state, '===Submit')      
+  	}
+
+  	onChange = (event) => {	  	        
+      this.setState({ 
+      	[event.target.name]: event.target.value,
+      	isHide: !(event.target.name ==='deliveryMethod' && event.target.value === 'courier')
+      });
+    }
 
 	render() {
 		const { cart } = this.props
@@ -14,7 +41,12 @@ class CheckoutComponent extends Component {
 				    <Grid columns={2} relaxed='very' stackable>
 				      <Grid.Column>
 				        <h1>Оформление заказа</h1>
-				        <FormExampleForm />				
+				        <OrderForm 
+				        	handleSubmit={this.handleSubmit} 
+				        	onChange={this.onChange}
+				        	state={this.state}
+				        	cart={cart}
+			        	/>	
 				      </Grid.Column>
 
 				      <Grid.Column verticalAlign='top'>
@@ -30,45 +62,57 @@ class CheckoutComponent extends Component {
 }
 
 function mapStateToProps(state) {
-	console.log(state, '==State')
 	return { cart: state.cart };
 }	
 
 export default connect(mapStateToProps)(CheckoutComponent)
 
-const FormExampleForm = () => (
+const OrderForm = ({handleSubmit, onChange, state, cart}) => (
   <div>
+  	  <Message
+  	  	error
+	    header='Ошибка!'
+	    content='Внимание, ваша корзина пуста.'
+	    className={cart.items.length === 0 ? '' : 'hidden' }
+	  />
 	  <h3>Я новый покупатель</h3>
-	  <Form>
+	  <Form onSubmit={handleSubmit}>
 	    <Form.Field>
 	      <label>Имя</label>
-	      <input placeholder='Имя' />
+	      <input placeholder='Имя' name="yourName" onChange={onChange} />
 	    </Form.Field>
 	    <Form.Field>
 	      <label>Фамилия</label>
-	      <input placeholder='Фамилия' />
+	      <input placeholder='Фамилия' name="yourSecondName" onChange={onChange}/>
 	    </Form.Field>
 	    <Form.Field>
 	      <label>Мобильный телефон</label>
-	      <input placeholder='Мобильный телефон' type="tel" />
+	      <input placeholder='Мобильный телефон' type="tel" name="yourPhone" onChange={onChange} />
 	    </Form.Field>
 	    <Form.Field>
 	      <label>Электронная почта</label>
-	      <input placeholder='Электронная почта' type="email" />
+	      <input placeholder='Электронная почта' type="email" name="yourEmail" onChange={onChange}/>
 	    </Form.Field>
 	    <h3>Доставка</h3>
-	    <Form.Field label='Способ доставки' control='select'>
-	        <option value='courier'>Курьер</option>
+	    <Form.Field label='Способ доставки' control='select' name="deliveryMethod" onChange={onChange}>
 	        <option value='pickup'>Самовывоз из магазина</option>
-	      </Form.Field>
+	        <option value='courier'>Курьер</option>
+	    </Form.Field>
+	    <Form.Field id="addressId" 
+	    	label='Адрес доставки' 
+	    	control='textarea' 
+	    	rows='3' 
+	    	name='address'
+	    	onChange={onChange} 
+	    	className={state.isHide ? 'hidden ' : '' } />
 		<h3>Оплата</h3>
 		<Form.Group grouped>
-	      <label>Способ оплаты</label>
-	      <Form.Field label='Наличными при получении' control='input' type='radio' />
-	      <Form.Field label='Платежной картой при получении' control='input' type='radio' />
+	      <label>Способ оплаты</label>	      
+  			<Form.Field label='Наличными при получении' value="byCash" control='input' type='radio' name='depositMethod' onChange={onChange} />
+      		<Form.Field label='Платежной картой при получении' value="byCard" control='input' type='radio' name='depositMethod' onChange={onChange} />
 	    </Form.Group>
-	    <h3>К оплате 777 руб.</h3>
-	    <Button type='submit'>Оформить заказ</Button>
+	    <h3>К оплате {cart.items.length} руб.</h3>
+	    <Button type="submit">Оформить заказ</Button>
 	  </Form>
   </div>  
 )

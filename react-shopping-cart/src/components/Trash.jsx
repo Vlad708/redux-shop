@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Menu, Popup, List, Button, Image } from 'semantic-ui-react';
+import { List, Button, Image } from 'semantic-ui-react';
 import { Link } from 'react-router-dom'
 
 class Trash extends Component {
