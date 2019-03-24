@@ -4,8 +4,8 @@ import { Button, Form, Grid, Segment, Item, Icon, Message } from 'semantic-ui-re
 
 class CheckoutComponent extends Component {
 
-	constructor() {
-      super();
+	constructor(props) {
+      super(props);
 	  this.handleSubmit = this.handleSubmit.bind(this);
       this.state = {
     	yourName: '',
@@ -15,17 +15,18 @@ class CheckoutComponent extends Component {
       	deliveryMethod: '',
       	depositMethod: '',
       	address: '',
+      	productAmount: this.props.cart.items.reduce((total, product) => total + ~~product.price, 0),
       	isHide: true,
-      }
+      }	      
   	}
 
   	handleSubmit(event) {
 	  event.preventDefault();
-      console.log(this.state, '===Submit')      
+      console.log(this.state, '=STATE')    
   	}
 
-  	onChange = (event) => {	  	        
-      this.setState({ 
+  	onChange = (event) => {  			  	       
+      this.setState({      	
       	[event.target.name]: event.target.value,
       	isHide: !(event.target.name ==='deliveryMethod' && event.target.value === 'courier')
       });
@@ -46,6 +47,7 @@ class CheckoutComponent extends Component {
 				        	onChange={this.onChange}
 				        	state={this.state}
 				        	cart={cart}
+							totalPrice={totalPrice}
 			        	/>	
 				      </Grid.Column>
 
@@ -67,7 +69,7 @@ function mapStateToProps(state) {
 
 export default connect(mapStateToProps)(CheckoutComponent)
 
-const OrderForm = ({handleSubmit, onChange, state, cart}) => (
+const OrderForm = ({handleSubmit, onChange, state, cart, totalPrice}) => (
   <div>
   	  <Message
   	  	error
@@ -108,15 +110,19 @@ const OrderForm = ({handleSubmit, onChange, state, cart}) => (
 		<h3>Оплата</h3>
 		<Form.Group grouped>
 	      <label>Способ оплаты</label>	      
-  			<Form.Field label='Наличными при получении' value="byCash" control='input' type='radio' name='depositMethod' onChange={onChange} />
-      		<Form.Field label='Платежной картой при получении' value="byCard" control='input' type='radio' name='depositMethod' onChange={onChange} />
+  			<Form.Field label='Наличными при получении' value="Оплата наличными" control='input' type='radio' name='depositMethod' onChange={onChange} />
+      		<Form.Field label='Платежной картой при получении' value="Оплата по карте" control='input' type='radio' name='depositMethod' onChange={onChange} />
 	    </Form.Group>
-	    <h3>К оплате {cart.items.length} руб.</h3>
-	    <Button type="submit">Оформить заказ</Button>
+	    <h3>
+		    <Form.Field>
+		      <label>К оплате {totalPrice} <Icon name="rub" /> </label>
+		      <input className='hidden' type="text" value={totalPrice} onChange={onChange}/>
+		    </Form.Field>	    	
+	    </h3>
+	    <Button type='submit' disabled={cart.items.length === 0}>Оформить заказ</Button>
 	  </Form>
   </div>  
 )
-
 
 const CartList = ({ cart }) => (	
 	cart.items.map(item => (
