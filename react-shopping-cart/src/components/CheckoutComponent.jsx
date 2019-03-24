@@ -22,6 +22,9 @@ class CheckoutComponent extends Component {
 
   	handleSubmit(event) {
 	  event.preventDefault();
+	  if (this.state.depositMethod === 'onlineDeposit') {
+	  	window.location.href = '/onlineDeposit';
+	  }
       console.log(this.state, '=STATE')    
   	}
 
@@ -112,6 +115,7 @@ const OrderForm = ({handleSubmit, onChange, state, cart, totalPrice}) => (
 	      <label>Способ оплаты</label>	      
   			<Form.Field label='Наличными при получении' value="Оплата наличными" control='input' type='radio' name='depositMethod' onChange={onChange} />
       		<Form.Field label='Платежной картой при получении' value="Оплата по карте" control='input' type='radio' name='depositMethod' onChange={onChange} />
+      		<Form.Field label='Онлайн банкинг' value="onlineDeposit" control='input' type='radio' name='depositMethod' onChange={onChange} />
 	    </Form.Group>
 	    <h3>
 		    <Form.Field>
