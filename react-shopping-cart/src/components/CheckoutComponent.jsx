@@ -1,5 +1,6 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import axios from 'axios'
 import { Button, Form, Grid, Segment, Item, Icon, Message } from 'semantic-ui-react'
 
 class CheckoutComponent extends Component {
@@ -8,24 +9,25 @@ class CheckoutComponent extends Component {
       super(props);
 	  this.handleSubmit = this.handleSubmit.bind(this);
       this.state = {
-    	yourName: '',
-    	yourSecondName: '',
+    		yourName: '',
+    		yourSecondName: '',
       	yourEmail: '',
       	yourPhone: '',
-      	deliveryMethod: '',
+      	deliveryMethod: '123',
       	depositMethod: '',
-      	address: '',
+      	address: '123',
+      	product: 'Продукт',
       	productAmount: this.props.cart.items.reduce((total, product) => total + ~~product.price, 0),
       	isHide: true,
       }	      
   	}
 
   	handleSubmit(event) {
-	  event.preventDefault();
-	  if (this.state.depositMethod === 'onlineDeposit') {
-	  	window.location.href = '/onlineDeposit';
-	  }
-      console.log(this.state, '=STATE')    
+	  	event.preventDefault();
+		  /*if (this.state.depositMethod === 'onlineDeposit') {
+		  	window.location.href = '/onlineDeposit';
+		  }*/
+      this.sendEmail(this.state)
   	}
 
   	onChange = (event) => {  			  	       
@@ -33,6 +35,25 @@ class CheckoutComponent extends Component {
       	[event.target.name]: event.target.value,
       	isHide: !(event.target.name ==='deliveryMethod' && event.target.value === 'courier')
       });
+    }
+
+    sendEmail = (data) => {  		
+    	console.log(data, '===Send--DATA')
+    	axios({
+			  method: 'POST',
+			  url: 'https://socio.paktcompany.com/wp-json/contact-form-7/v1/contact-forms/71/feedback',
+			  headers: {
+			  	'content-type': 'multipart/form-data; boundary=----WebKitFormBoundarycTmAjT5JBqZy3KUN'
+			  },
+			  data: {
+		  		_wpcf7: 71,
+					_wpcf7_version: '5.1.1',
+					_wpcf7_locale: 'ru_RU',					
+					_wpcf7_unit_tag: 'wpcf7-f71-p60-o1',
+					_wpcf7_container_post: 60,					
+			    ...data,
+			  }
+			});
     }
 
 	render() {
