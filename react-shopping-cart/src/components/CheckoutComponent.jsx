@@ -9,8 +9,8 @@ class CheckoutComponent extends Component {
       super(props);
 	  this.handleSubmit = this.handleSubmit.bind(this);
       this.state = {
-    		yourName: '',
-    		yourSecondName: '',
+				yourName: '',
+				yourSecondName: '',
       	yourEmail: '',
       	yourPhone: '',
       	deliveryMethod: '123',
@@ -23,11 +23,13 @@ class CheckoutComponent extends Component {
   	}
 
   	handleSubmit(event) {
-	  	event.preventDefault();
+  		event.preventDefault();
 		  /*if (this.state.depositMethod === 'onlineDeposit') {
 		  	window.location.href = '/onlineDeposit';
 		  }*/
       this.sendEmail(this.state)
+      console.log(event.target, '==Target')
+      console.log(new FormData(event.target), 'Kotka')
   	}
 
   	onChange = (event) => {  			  	       
@@ -37,8 +39,19 @@ class CheckoutComponent extends Component {
       });
     }
 
-    sendEmail = (data) => {  		
+    sendEmail = (data) => {
     	console.log(data, '===Send--DATA')
+
+    	/*axios.post('https://socio.paktcompany.com/wp-json/contact-form-7/v1/contact-forms/71/feedback', {
+    		_wpcf7: 71,
+				_wpcf7_version: '5.1.1',
+				_wpcf7_locale: 'ru_RU',					
+				_wpcf7_unit_tag: 'wpcf7-f71-p60-o1',
+				_wpcf7_container_post: 60,					
+		    ...data,
+    	})*/
+
+
     	axios({
 			  method: 'POST',
 			  url: 'https://socio.paktcompany.com/wp-json/contact-form-7/v1/contact-forms/71/feedback',
