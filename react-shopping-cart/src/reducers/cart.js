@@ -1,7 +1,6 @@
-import { loadState } from '../components/StateLoader'
+import { loadState } from '../utils/StateLoader'
 
 const persistedState = loadState();
-console.log(persistedState, '===')
 
 const initialState = {
   items: persistedState.selectedProducts || [],  

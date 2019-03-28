@@ -1,73 +1,50 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import axios from 'axios'
+import { sendEmail } from '../utils/SendEmail'
 import { Button, Form, Grid, Segment, Item, Icon, Message } from 'semantic-ui-react'
 
 class CheckoutComponent extends Component {
 
 	constructor(props) {
-      super(props);
+    super(props);
+
 	  this.handleSubmit = this.handleSubmit.bind(this);
-      this.state = {
-				yourName: '',
-				yourSecondName: '',
-      	yourEmail: '',
-      	yourPhone: '',
-      	deliveryMethod: '123',
-      	depositMethod: '',
-      	address: '123',
-      	product: 'Продукт',
-      	productAmount: this.props.cart.items.reduce((total, product) => total + ~~product.price, 0),
-      	isHide: true,
-      }	      
-  	}
+	  this.formMainInfo = React.createRef();
+    this.state = {			
+    	product: '',
+    	totalPrice: this.props.cart.items.reduce((total, product) => total + ~~product.price, 0),
+    	isHide: true,
+    }	
+	}
 
-  	handleSubmit(event) {
-  		event.preventDefault();
-		  /*if (this.state.depositMethod === 'onlineDeposit') {
-		  	window.location.href = '/onlineDeposit';
-		  }*/
-      this.sendEmail(this.state)
-      console.log(event.target, '==Target')
-      console.log(new FormData(event.target), 'Kotka')
-  	}
+	componentDidMount(props) {		
 
-  	onChange = (event) => {  			  	       
-      this.setState({      	
-      	[event.target.name]: event.target.value,
-      	isHide: !(event.target.name ==='deliveryMethod' && event.target.value === 'courier')
-      });
-    }
+		this.setState({
+			product: this.props.cart.items.map(item => item.title),
+		})
+	}
 
-    sendEmail = (data) => {
-    	console.log(data, '===Send--DATA')
+	handleSubmit(event) {
+		event.preventDefault();
 
-    	/*axios.post('https://socio.paktcompany.com/wp-json/contact-form-7/v1/contact-forms/71/feedback', {
-    		_wpcf7: 71,
-				_wpcf7_version: '5.1.1',
-				_wpcf7_locale: 'ru_RU',					
-				_wpcf7_unit_tag: 'wpcf7-f71-p60-o1',
-				_wpcf7_container_post: 60,					
-		    ...data,
-    	})*/
+		if (this.state.depositMethod === 'onlineDeposit') {
+			window.location.href = '/onlineDeposit';
+		}
 
+		const data = new FormData(event.target)
 
-    	axios({
-			  method: 'POST',
-			  url: 'https://socio.paktcompany.com/wp-json/contact-form-7/v1/contact-forms/71/feedback',
-			  headers: {
-			  	'content-type': 'multipart/form-data; boundary=----WebKitFormBoundarycTmAjT5JBqZy3KUN'
-			  },
-			  data: {
-		  		_wpcf7: 71,
-					_wpcf7_version: '5.1.1',
-					_wpcf7_locale: 'ru_RU',					
-					_wpcf7_unit_tag: 'wpcf7-f71-p60-o1',
-					_wpcf7_container_post: 60,					
-			    ...data,
-			  }
-			});
-    }
+		data.append('totalPrice', this.state.totalPrice)
+		data.append('product', this.state.product)
+
+    sendEmail(data)
+	}
+
+	onChange = (event) => {  			  	       
+    this.setState({      	
+    	[event.target.name]: event.target.value,
+    	isHide: !(event.target.name ==='deliveryMethod' && event.target.value === 'Курьер')
+    });
+  }
 
 	render() {
 		const { cart } = this.props
@@ -84,7 +61,7 @@ class CheckoutComponent extends Component {
 				        	onChange={this.onChange}
 				        	state={this.state}
 				        	cart={cart}
-							totalPrice={totalPrice}
+				        	totalPrice={totalPrice}						
 			        	/>	
 				      </Grid.Column>
 
@@ -115,46 +92,44 @@ const OrderForm = ({handleSubmit, onChange, state, cart, totalPrice}) => (
 	    className={cart.items.length === 0 ? '' : 'hidden' }
 	  />
 	  <h3>Я новый покупатель</h3>
-	  <Form onSubmit={handleSubmit}>
+	  <Form onSubmit={handleSubmit} ref={this.formMainInfo}>
 	    <Form.Field>
 	      <label>Имя</label>
-	      <input placeholder='Имя' name="yourName" onChange={onChange} />
+	      <input placeholder='Имя' name="yourName" />
 	    </Form.Field>
 	    <Form.Field>
 	      <label>Фамилия</label>
-	      <input placeholder='Фамилия' name="yourSecondName" onChange={onChange}/>
+	      <input placeholder='Фамилия' name="yourSecondName" />
 	    </Form.Field>
 	    <Form.Field>
 	      <label>Мобильный телефон</label>
-	      <input placeholder='Мобильный телефон' type="tel" name="yourPhone" onChange={onChange} />
+	      <input placeholder='Мобильный телефон' type="tel" name="yourPhone" />
 	    </Form.Field>
 	    <Form.Field>
 	      <label>Электронная почта</label>
-	      <input placeholder='Электронная почта' type="email" name="yourEmail" onChange={onChange}/>
+	      <input placeholder='Электронная почта' type="email" name="yourEmail" />
 	    </Form.Field>
 	    <h3>Доставка</h3>
-	    <Form.Field label='Способ доставки' control='select' name="deliveryMethod" onChange={onChange}>
-	        <option value='pickup'>Самовывоз из магазина</option>
-	        <option value='courier'>Курьер</option>
+	    <Form.Field label='Способ доставки' control='select' name="deliveryMethod" onChange={onChange} >
+	        <option value='Самовывоз из магазина'>Самовывоз из магазина</option>
+	        <option value='Курьер'>Курьер</option>
 	    </Form.Field>
 	    <Form.Field id="addressId" 
 	    	label='Адрес доставки' 
 	    	control='textarea' 
 	    	rows='3' 
-	    	name='address'
-	    	onChange={onChange} 
+	    	name='address'	    	
 	    	className={state.isHide ? 'hidden ' : '' } />
 		<h3>Оплата</h3>
 		<Form.Group grouped>
 	      <label>Способ оплаты</label>	      
-  			<Form.Field label='Наличными при получении' value="Оплата наличными" control='input' type='radio' name='depositMethod' onChange={onChange} />
-      		<Form.Field label='Платежной картой при получении' value="Оплата по карте" control='input' type='radio' name='depositMethod' onChange={onChange} />
-      		<Form.Field label='Онлайн банкинг' value="onlineDeposit" control='input' type='radio' name='depositMethod' onChange={onChange} />
+  			<Form.Field label='Наличными при получении' value="Оплата наличными" control='input' type='radio' name='depositMethod' />
+    		<Form.Field label='Платежной картой при получении' value="Оплата по карте" control='input' type='radio' name='depositMethod' />
+      	<Form.Field label='Онлайн банкинг' value="onlineDeposit" control='input' type='radio' name='depositMethod' />
 	    </Form.Group>
 	    <h3>
 		    <Form.Field>
-		      <label>К оплате {totalPrice} <Icon name="rub" /> </label>
-		      <input className='hidden' type="text" value={totalPrice} onChange={onChange}/>
+		      <label>К оплате {totalPrice} <Icon name="rub" /> </label>		      
 		    </Form.Field>	    	
 	    </h3>
 	    <Button type='submit' disabled={cart.items.length === 0}>Оформить заказ</Button>

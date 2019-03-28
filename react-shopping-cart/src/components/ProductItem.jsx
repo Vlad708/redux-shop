@@ -18,7 +18,7 @@ class ProductItem extends Component {
     }
 
 	componentWillMount() {		
-		const { productId, setProduct } = this.props		
+		const { productId, setProduct } = this.props
 	    axios.get('https://socio.paktcompany.com/wp-json/wp/v2/posts/' + productId).then( ({ data }) => {
 	      this.setState({
 	      	isReady: true,

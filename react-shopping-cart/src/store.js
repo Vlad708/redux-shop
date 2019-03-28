@@ -2,7 +2,7 @@ import { createStore, applyMiddleware } from 'redux';
 import logger from 'redux-logger';
 
 import rootReducer from './reducers';
-import { loadState, saveState } from './components/StateLoader'
+import { loadState, saveState } from './utils/StateLoader'
 
 const persistedState = loadState();
 
