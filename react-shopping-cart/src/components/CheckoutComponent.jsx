@@ -1,4 +1,7 @@
 import React, { Component } from 'react'
+import { Redirect } from 'react-router-dom'
+import { Route , withRouter} from 'react-router-dom';
+import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { sendEmail } from '../utils/SendEmail'
 import { Button, Form, Grid, Segment, Item, Icon, Message } from 'semantic-ui-react'
@@ -13,6 +16,8 @@ class CheckoutComponent extends Component {
     this.state = {			
     	product: '',
     	totalPrice: this.props.cart.items.reduce((total, product) => total + ~~product.price, 0),
+    	depositMethod: '',
+    	isOnlinePage: false,
     	isHide: true,
     }	
 	}
@@ -27,14 +32,25 @@ class CheckoutComponent extends Component {
 	handleSubmit(event) {
 		event.preventDefault();
 
-		if (this.state.depositMethod === 'onlineDeposit') {
-			window.location.href = '/onlineDeposit';
-		}
-
 		const data = new FormData(event.target)
 
 		data.append('totalPrice', this.state.totalPrice)
 		data.append('product', this.state.product)
+
+		if (this.state.depositMethod === 'onlineDeposit') {
+			/*console.log('HERE')
+			this.setState({
+				isOnlinePage: true,
+				formData: JSON.parse(JSON.stringify(data))
+			})*/
+
+			this.context.router.push({
+				pathname: '/onlineDepositon',
+				state: {email: 'Test'}  
+			 })
+
+			return false
+		}
 
     sendEmail(data)
 	}
@@ -49,6 +65,9 @@ class CheckoutComponent extends Component {
 	render() {
 		const { cart } = this.props
 		const totalPrice = cart.items.reduce((total, product) => total + ~~product.price, 0)
+		const { isOnlinePage, formData } = this.state;
+
+     
 		
 		return (
 			<div>				
@@ -81,12 +100,13 @@ function mapStateToProps(state) {
 	return { cart: state.cart };
 }	
 
-export default connect(mapStateToProps)(CheckoutComponent)
+// export default connect(mapStateToProps)(CheckoutComponent) 
+export default withRouter(connect(mapStateToProps)(CheckoutComponent))
 
 const OrderForm = ({handleSubmit, onChange, state, cart, totalPrice}) => (
   <div>
-  	  <Message
-  	  	error
+	  <Message
+	  	error
 	    header='Ошибка!'
 	    content='Внимание, ваша корзина пуста.'
 	    className={cart.items.length === 0 ? '' : 'hidden' }
@@ -124,8 +144,8 @@ const OrderForm = ({handleSubmit, onChange, state, cart, totalPrice}) => (
 		<Form.Group grouped>
 	      <label>Способ оплаты</label>	      
   			<Form.Field label='Наличными при получении' value="Оплата наличными" control='input' type='radio' name='depositMethod' />
-    		<Form.Field label='Платежной картой при получении' value="Оплата по карте" control='input' type='radio' name='depositMethod' />
-      	<Form.Field label='Онлайн банкинг' value="onlineDeposit" control='input' type='radio' name='depositMethod' />
+    		<Form.Field label='Платежной картой при получении' value="Оплата по карте" control='input' type='radio' name='depositMethod' onChange={onChange} />
+      	<Form.Field label='Онлайн банкинг' value="onlineDeposit" control='input' type='radio' name='depositMethod' onChange={onChange} />
 	    </Form.Group>
 	    <h3>
 		    <Form.Field>
