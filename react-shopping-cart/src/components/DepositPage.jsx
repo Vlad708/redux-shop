@@ -1,10 +1,24 @@
 import React, { Component } from 'react';
 import PaypalExpressBtn from 'react-paypal-express-checkout';
+import { withRouter } from 'react-router-dom';
+import { sendEmail } from '../utils/SendEmail'
  
-class DepositPage extends Component {
-    render() {
+class DepositPage extends Component {          
 
-    	console.log(this, '==PROPS')
+    componentDidMount () {
+      
+      const form_data = new FormData()
+      const { formData } = this.props.location.state
+
+      for ( var key in formData ) {
+          form_data.append(key, formData[key]);
+      }    
+
+      sendEmail(form_data)
+    }
+
+    render() {    
+
       const onSuccess = (payment) => {            
 				console.log("The payment was succeeded!", payment);            		
       }
@@ -36,4 +50,4 @@ class DepositPage extends Component {
     }
 }
 
-export default DepositPage
+export default withRouter(DepositPage)

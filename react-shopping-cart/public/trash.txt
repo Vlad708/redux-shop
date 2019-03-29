@@ -21,8 +21,3 @@ https://socio.paktcompany.com/wp-json/contact-form-7/v1/contact-forms/71/feedbac
 
 1
 curl -d "key1=value1&key2=value2" "uri"
-
-
-, state: { data: formData }
-
-

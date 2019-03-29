@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
-import { Redirect } from 'react-router-dom'
-import { Route , withRouter} from 'react-router-dom';
+import { Route , withRouter, Redirect} from 'react-router-dom';
 import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { sendEmail } from '../utils/SendEmail'
 import { Button, Form, Grid, Segment, Item, Icon, Message } from 'semantic-ui-react'
+import DepositPage from '../components/DepositPage'
 
 class CheckoutComponent extends Component {
 
@@ -20,7 +20,7 @@ class CheckoutComponent extends Component {
     	isOnlinePage: false,
     	isHide: true,
     }	
-	}
+	}	
 
 	componentDidMount(props) {		
 
@@ -37,17 +37,20 @@ class CheckoutComponent extends Component {
 		data.append('totalPrice', this.state.totalPrice)
 		data.append('product', this.state.product)
 
-		if (this.state.depositMethod === 'onlineDeposit') {
-			/*console.log('HERE')
+
+		let jsonObject = {};
+
+		for (const [key, value]  of data.entries()) {
+		    jsonObject[key] = value;
+		}
+
+
+		if (this.state.depositMethod === 'Онлайн банкинг') {
+			
 			this.setState({
 				isOnlinePage: true,
-				formData: JSON.parse(JSON.stringify(data))
-			})*/
-
-			this.context.router.push({
-				pathname: '/onlineDepositon',
-				state: {email: 'Test'}  
-			 })
+				formData: jsonObject
+			})
 
 			return false
 		}
@@ -59,18 +62,26 @@ class CheckoutComponent extends Component {
     this.setState({      	
     	[event.target.name]: event.target.value,
     	isHide: !(event.target.name ==='deliveryMethod' && event.target.value === 'Курьер')
-    });
+    })
   }
 
 	render() {
 		const { cart } = this.props
 		const totalPrice = cart.items.reduce((total, product) => total + ~~product.price, 0)
-		const { isOnlinePage, formData } = this.state;
-
-     
+		const { isOnlinePage, formData } = this.state;    
 		
 		return (
-			<div>				
+			<div>
+			{
+				this.state.isOnlinePage ? 
+				<Redirect to={{
+          	pathname: '/onlineDeposit',
+          	state: { 
+          		formData: formData
+          	}            	
+	      	}}
+				/>
+				:				
 				<Segment placeholder>
 				    <Grid columns={2} relaxed='very' stackable>
 				      <Grid.Column>
@@ -91,6 +102,7 @@ class CheckoutComponent extends Component {
 				      </Grid.Column>
 				    </Grid>
 				</Segment>
+			}			
 			</div>			
 		)
 	}	
@@ -100,7 +112,6 @@ function mapStateToProps(state) {
 	return { cart: state.cart };
 }	
 
-// export default connect(mapStateToProps)(CheckoutComponent) 
 export default withRouter(connect(mapStateToProps)(CheckoutComponent))
 
 const OrderForm = ({handleSubmit, onChange, state, cart, totalPrice}) => (
@@ -145,7 +156,7 @@ const OrderForm = ({handleSubmit, onChange, state, cart, totalPrice}) => (
 	      <label>Способ оплаты</label>	      
   			<Form.Field label='Наличными при получении' value="Оплата наличными" control='input' type='radio' name='depositMethod' />
     		<Form.Field label='Платежной картой при получении' value="Оплата по карте" control='input' type='radio' name='depositMethod' onChange={onChange} />
-      	<Form.Field label='Онлайн банкинг' value="onlineDeposit" control='input' type='radio' name='depositMethod' onChange={onChange} />
+      	<Form.Field label='Онлайн банкинг' value="Онлайн банкинг" control='input' type='radio' name='depositMethod' onChange={onChange} />
 	    </Form.Group>
 	    <h3>
 		    <Form.Field>
