@@ -35,17 +35,15 @@ class CheckoutComponent extends Component {
 		const data = new FormData(event.target)
 
 		data.append('totalPrice', this.state.totalPrice)
-		data.append('product', this.state.product)
-
-
-		let jsonObject = {};
-
-		for (const [key, value]  of data.entries()) {
-		    jsonObject[key] = value;
-		}
+		data.append('product', this.state.product)	
 
 
 		if (this.state.depositMethod === 'Онлайн банкинг') {
+
+			let jsonObject = {};
+			for (const [key, value]  of data.entries()) {
+			    jsonObject[key] = value;
+			}
 			
 			this.setState({
 				isOnlinePage: true,
