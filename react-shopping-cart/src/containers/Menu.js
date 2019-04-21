@@ -1,8 +1,8 @@
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import * as cartActions from '../actions/cart';
-import Menu from '../components/MenuComponent';
-import uniqBy from 'lodash/uniqBy';
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import * as cartActions from '../actions/cart'
+import Menu from '../components/MenuComponent'
+import uniqBy from 'lodash/uniqBy'
 
 const mapStateToProps = ({ cart }) => ({  
   totalPrice: cart.items.reduce((total, product) => total + ~~product.price, 0),

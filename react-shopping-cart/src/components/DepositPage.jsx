@@ -1,45 +1,84 @@
-import React, { Component } from 'react';
-import PaypalExpressBtn from 'react-paypal-express-checkout';
-import { withRouter } from 'react-router-dom';
+import React, { Component } from 'react'
+import PaypalExpressBtn from 'react-paypal-express-checkout'
+import { withRouter } from 'react-router-dom'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
 import { sendEmail } from '../utils/SendEmail'
-import { Message } from 'semantic-ui-react'
+import ReactNotification from "react-notifications-component"
+import "react-notifications-component/dist/theme.css"
  
 class DepositPage extends Component {             
 
 		constructor(props) {
-			super(props)
-  		this.state = {
-  			status: '1'
-  		}
+			super(props);    	
+    	this.notificationDOMRef = React.createRef();
     }
     
     render() {   
 
     	const { formData } = this.props.location.state
+    	const { removeFromCart } = this.props    
 
       const onSuccess = (payment) => {            
 				console.log("The payment was succeeded!", payment);
 				const form_data = new FormData()	      
 	      
-	      for ( var key in formData ) {
-	          form_data.append(key, formData[key]);
+	      for (var key in formData ) {
+	          form_data.append(key, formData[key])
 	      }
 
-	      sendEmail(form_data)           		
+	      this.notificationDOMRef.current.addNotification({
+			      title: "Внимание",
+			      message: `Платеж успешно выполнен. С вами свяжется оператор`,
+			      type: "success",
+			      insert: "top",
+			      container: "top-right",
+			      animationIn: ["animated", "fadeIn"],
+			      animationOut: ["animated", "fadeOut"],
+			      dismiss: { duration: 0 },
+			      dismissable: { click: true }
+			  })
+
+			  removeFromCart()
+
+	      // sendEmail(form_data)         		
       }
 
       const onCancel = (data) => {
           // User pressed "cancel" or close Paypal's popup!
-          console.log('The payment was cancelled!', data);            
+        console.log('The payment was cancelled!', data);
+        this.notificationDOMRef.current.addNotification({
+		      title: "Внимание",
+		      message: "Платеж отменен пользователем",
+		      type: "warning",
+		      insert: "top",
+		      container: "top-right",
+		      animationIn: ["animated", "fadeIn"],
+		      animationOut: ["animated", "fadeOut"],
+		      dismiss: { duration: 0 },
+		      dismissable: { click: true }
+		    })
       }
 
       const onError = (err) => {            
-          console.log("Error!", err);            
+          console.log("Error!", err);
+          this.notificationDOMRef.current.addNotification({
+			      title: "Status",
+			      message: `Ошибка ${err}`,
+			      type: "danger",
+			      insert: "top",
+			      container: "top-right",
+			      animationIn: ["animated", "fadeIn"],
+			      animationOut: ["animated", "fadeOut"],
+			      dismiss: { duration: 0 },
+			      dismissable: { click: true }
+			    })       
       }
 
-      let env = 'sandbox'; // you can set here to 'production' for production
-      let currency = 'RUB'; // or you can set this value from your props or state
-      let total = ~~formData.totalPrice; // same as above, this is the total amount (based on currency) to be paid by using Paypal express checkout
+      let env = 'sandbox' // you can set here to 'production' for production
+      let currency = 'RUB' // or you can set this value from your props or state
+      let total = ~~formData.totalPrice // same as above, this is the total amount (based on currency) to be paid by using Paypal express checkout
+      total = 1
       // Document on Paypal's currency code: https://developer.paypal.com/docs/classic/api/currency_codes/
 
       const client = {
@@ -49,14 +88,7 @@ class DepositPage extends Component {
       return (
 				<div>
 					<h1>Выберите платежную систему</h1>
-
-					<Message positive hidden={!this.state.status}>
-				    <Message.Header>You are eligible for a reward</Message.Header>
-				    <p>
-				      Go to your <b>special offers</b> page to see now.
-				    </p>
-				  </Message>
-
+					<ReactNotification ref={this.notificationDOMRef} />
           <PaypalExpressBtn env={env} client={client} currency={currency} total={total} onError={onError} onSuccess={onSuccess} onCancel={onCancel} />
 				</div>
       );

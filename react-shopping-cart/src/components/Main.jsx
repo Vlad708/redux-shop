@@ -5,9 +5,9 @@ import { Switch, Route } from 'react-router-dom'
 import ProductCard from '../containers/ProductCard'
 import ProductItem from '../components/ProductItem'
 import CheckoutComponent from '../components/CheckoutComponent'
-import DepositPage from '../components/DepositPage'
 import Filter from '../containers/Filter'
 import Menu from '../containers/Menu'
+import Deposit from '../containers/Deposit'
 import LiveChat from '../components/LiveChat'
 import Slider from '../components/Slider'
 
@@ -45,7 +45,7 @@ class Main extends Component {
 				  } />				  
 		  		  <Route path="/product/:id" render={({match}) => <ProductItem productId={match.params.id} />} />
 		  		  <Route exact path="/checkout/singlePage" render={() => <CheckoutComponent />} />
-		  		  <Route exact path="/onlineDeposit" render={() => <DepositPage />} />
+		  		  <Route exact path="/onlineDeposit" render={() => <Deposit />} />
 				</Switch>
 	      	</Container>
   		)

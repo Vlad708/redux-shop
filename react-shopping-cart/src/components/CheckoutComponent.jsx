@@ -4,7 +4,6 @@ import { compose } from 'redux'
 import { connect } from 'react-redux'
 import { sendEmail } from '../utils/SendEmail'
 import { Button, Form, Grid, Segment, Item, Icon, Message } from 'semantic-ui-react'
-import DepositPage from '../components/DepositPage'
 
 class CheckoutComponent extends Component {
 
